@@ -1,0 +1,893 @@
+/* Application.css */
+
+html {
+    font-family: 'Noto Sans', sans-serif;
+}
+
+body {
+    background: #F5F7FF;
+}
+
+.Application {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    margin-top: 50px;
+}
+
+.menu {
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 1392px;
+    height: 80px;
+    left: calc(50% - 1392px / 2);
+    top: 24px;
+
+    background: #FFFFFF;
+    box-shadow: 0 0 21px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
+
+.testnet .menu {
+    top: 44px;
+}
+
+.menu img {
+    position: absolute;
+    width: 188px;
+    height: 40px;
+    left: 16px;
+    top: calc(50% - 40px / 2);
+}
+
+.menu .tabs {
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    gap: 12px;
+
+    position: absolute;
+    width: 268px;
+    height: 48px;
+    left: calc(50% - 268px / 2);
+    top: calc(50% - 48px / 2);
+}
+
+.menu .swap-tab {
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0 24px;
+    gap: 6px;
+
+    width: 123px;
+    height: 48px;
+
+    background: #F5F7FF;
+    border-radius: 16px;
+    border-width: 0;
+
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+
+    font-family: 'Noto Sans', serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 23px;
+    color: #0166FF;
+}
+
+.menu .swap-tab img {
+    width: 24px;
+    height: 24px;
+
+    transform: matrix(-1, 0, 0, 1, 0, 0);
+
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.menu .bridge-tab {
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0 24px;
+    gap: 6px;
+
+    width: 133px;
+    height: 48px;
+
+    background: white;
+    border-radius: 16px;
+    border-width: 0;
+
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+
+    font-family: 'Noto Sans', serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 23px;
+    text-align: center;
+
+    color: #9A9A9A;
+
+    cursor: pointer;
+}
+
+.menu .bridge-tab img {
+    /* Frame */
+    width: 24px;
+    height: 24px;
+
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/**
+    `Connect Wallet` button.
+ */
+.menu .connect-wallet-button {
+
+    font-family: 'Noto Sans', serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 20px;
+
+    color: white;
+    cursor: pointer;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    width: 189px;
+    height: 48px;
+
+    background: #0166FF;
+    border: 1px solid #0166FF;
+    border-radius: 16px;
+}
+
+.menu .connect-wallet-button:hover {
+    background-color: #0E2BC6;
+}
+
+h1 {
+    font-family: 'Noto Sans', serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 31px;
+    align-items: center;
+    color: #0E0E0E;
+
+    position: relative;
+    top: 62px;
+    text-align: center;
+    margin: 0;
+}
+
+/* Container for the Connect Wallet button */
+.connect-wallet-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+/* Styling for the Connect Wallet button */
+
+.disconnect-wallet-button {
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 8px;
+
+    position: absolute;
+    width: 189px;
+    height: 48px;
+    top: 53px;
+
+    background: #FFFFFF;
+    box-shadow: -2px -2px 16px rgba(29, 70, 235, 0.1);
+    border-radius: 16px;
+    border-width: 0;
+
+    /* Mainnet/Subtitle (600) */
+    font-family: 'Noto Sans', serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 20px;
+
+    color: #FD4E4E;
+
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+
+    cursor: pointer;
+}
+
+/* Swap form styling */
+.swap-form {
+    position: absolute;
+    background-color: #fff;
+    padding: 0;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(44, 62, 80, 0.1);
+    width: 460px;
+    height: 396px;
+    top: 234px;
+}
+
+.form-group {
+    width: 350px;
+    height: 58px;
+    left: calc(50% - 350px / 2);
+}
+
+.form-group-1 {
+    position: absolute;
+    top: 123px;
+}
+
+.form-group-1.insufficient-balance .input-field {
+    border-color: #ff4d4f;
+}
+
+.form-group-1.insufficient-balance .max {
+    color: #ff4d4f;
+}
+
+.form-group-1.insufficient-balance .normal {
+    display: none;
+}
+
+.form-group-1 .alert {
+    display: none;
+}
+
+.form-group-1.insufficient-balance .alert {
+    display: block;
+    color: #ff4d4f;
+}
+
+.form-group-2 {
+    position: absolute;
+    top: 205px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    color: #34495e; /* Darker blue-gray */
+    margin-bottom: 8px;
+}
+
+.input-field {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-style: solid;
+    border-color: #cccccc;
+    border-width: 1px;
+    border-radius: 12px;
+    padding: 0;
+    width: 350px;
+    height: 58px;
+}
+
+/* Create a container for the logo and version indicator */
+.input-field .token-container {
+    position: relative;
+    width: 48px;
+    height: 24px;
+}
+
+/* Style for the ICE logo */
+.input-field .token {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+}
+
+/* Style for version indicators */
+.input-field .v1,
+.input-field .v2 {
+    position: absolute;
+    right: 0;
+    bottom: -5px;
+    width: 16px;
+    height: 16px;
+}
+
+.input-field .max {
+    width: 47px;
+    height: 18px;
+    margin-left: auto;
+    padding-left: 17px;
+
+    /* Mainnet/Body (600) */
+    font-family: 'Noto Sans', serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 18px;
+    /* identical to box height, or 138% */
+    display: flex;
+    align-items: center;
+
+    color: #9A9A9A;
+    cursor: pointer;
+}
+
+.input-field input {
+    border: none;
+    background: transparent;
+    flex: 1;
+    outline: none;
+    padding: 0;
+
+    /* Mainnet/Body (600) */
+    font-family: 'Noto Sans', serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 18px;
+
+    /* identical to box height, or 138% */
+    display: flex;
+    align-items: center;
+
+    color: #0E0E0E;
+
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.input-field .token {
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 16px;
+    color: #2C3E50;
+}
+
+.input-field .vertical-line-1 {
+    margin-left: 8px;
+    margin-right: 16px;
+}
+
+.input-field input::placeholder {
+    font-family: 'Noto Sans', serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 18px;
+    color: #9A9A9A;
+}
+
+.input-field span {
+    /* Terms */
+    height: 16px;
+
+    /* Mainnet/Caption (500) */
+    font-family: 'Noto Sans', serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    display: flex;
+    align-items: center;
+
+    color: #9A9A9A;
+
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.input-field .normal.initial {
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+/* Styling for the Swap button */
+.swap-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 0;
+    gap: 8px;
+    background-color: #0166FF;
+    border-radius: 16px;
+    font-family: 'Noto Sans', serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 20px;
+    color: #FFFFFF;
+    border-width: 0;
+
+    position: absolute;
+    width: 350px;
+    height: 58px;
+    left: calc(50% - 350px / 2);
+    top: 287px;
+    bottom: 51px;
+}
+
+/* Hover effect for the Swap button */
+.swap-button:hover {
+    background-color: #0E2BC6;
+}
+
+/* Disabled state styling for the Swap button */
+.swap-button:disabled {
+    background-color: #cccccc; /* Noticeably gray */
+    color: #666666; /* Dark gray text */
+    cursor: not-allowed;
+}
+
+.swap-progress ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.swap-progress li {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+.step-pending {
+    color: #95a5a6; /* Grayish blue */
+}
+
+.step-binance a {
+    color: inherit; /* Use the parent element's text color */
+    text-decoration: none; /* Remove the underline */
+}
+
+.step-in-progress {
+    color: #f1c40f; /* Soft yellow */
+}
+
+.step-completed {
+    color: #27ae60; /* Green */
+}
+
+.swap-progress span {
+    margin-right: 8px;
+}
+
+/* Transaction info styles */
+.transaction-info p,
+.transaction-info a {
+    color: #2C3E50;
+}
+
+.swap-button:disabled .meme-icon-white {
+    stroke: #666666; /* Dark gray text */
+}
+
+.meme-icon-white {
+    stroke: white;
+}
+
+.meme-icon-blue {
+    stroke: #0166FF;
+}
+
+.drop-icon {
+    width: 24px;
+    height: 24px;
+
+    flex: none;
+    order: 2;
+    flex-grow: 0;
+}
+
+/* Description form styling */
+.description-form {
+    box-sizing: border-box;
+
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 12px 20px;
+    gap: 16px;
+
+    position: absolute;
+    width: 460px;
+    height: 89px;
+    left: calc(50% - 460px / 2);
+    top: 642px;
+
+    background: #FFFFFF;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+}
+
+/* How does it work? */
+.description-form h2 {
+
+    margin: 0;
+
+    /* Mainnet/Title (600) */
+    font-family: 'Noto Sans', serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 23px;
+    display: flex;
+    align-items: center;
+
+    color: #0E0E0E;
+
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* If you have any questions, then check out our detailed guide on how it works */
+.description-form span {
+
+    /* Mainnet/Body 2 (400) */
+    font-family: 'Noto Sans', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+
+    color: #727689;
+
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.notifications-area {
+    left: calc(50% - 1392px / 2);
+    width: 226px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full height to center vertically */
+    position: fixed;
+    top: 0;
+    overflow-y: auto; /* Allow scrolling if content overflows */
+    z-index: 10;
+}
+
+.notification {
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 16px;
+
+    background: #FFFFFF;
+    border-radius: 16px;
+
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+
+    width: 100%;
+    height: 44px;
+    color: black;
+    margin-bottom: 10px;
+    text-align: center;
+
+    /* Mainnet/Subtitle 3 (400) */
+    font-family: 'Noto Sans', serif;
+    font-style: normal;
+    font-weight: 500;
+}
+
+.notification div {
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 10px 7px;
+    gap: 4px;
+
+    width: 100%;
+
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+
+    vertical-align: middle;
+}
+
+.notification-status-icon {
+    /* icon/block_checkbox_on */
+    width: 24px;
+    height: 24px;
+
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Additional styles for different notification statuses can be added here */
+.step-completed {
+}
+
+.step-in-progress {
+}
+
+.step-pending {
+}
+
+.thousands-number-input {
+    display: none !important;
+}
+
+.thousands-number-input.visible {
+    display: inline !important;
+}
+
+/**
+    `No-Mobile` styles.
+ */
+.no-mobile .menu {
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 343px;
+    height: 60px;
+    left: calc(50% - 343px / 2);
+
+    background: #FFFFFF;
+    box-shadow: 0 0 21px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
+
+.no-mobile .menu img {
+    position: absolute;
+    width: 141px;
+    height: 30px;
+    left: calc(50% - 141px / 2);
+    top: calc(50% - 30px / 2);
+}
+
+.no-mobile .content {
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 343px;
+    height: 70%;
+    left: calc(50% - 343px / 2);
+    top: 111px;
+
+    background: #FFFFFF;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+}
+
+.no-mobile .content .notification {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    gap: 20px;
+
+    position: absolute;
+    width: 320px;
+    height: 194px;
+    left: calc(50% - 320px / 2 - 1px);
+    top: calc(50% - 194px / 2);
+}
+
+.no-mobile .content .notification img {
+    width: 80px;
+    height: 80px;
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.no-mobile .content .notification .text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 12px;
+    width: 320px;
+}
+
+.no-mobile .content .notification .text h1 {
+    width: 320px;
+    top: 0;
+    font-family: 'Noto Sans', serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 23px;
+    text-align: center;
+    color: #0E0E0E;
+}
+
+.no-mobile .content .notification .text span {
+    width: 320px;
+    font-family: 'Noto Sans', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: center;
+    color: #494949;
+}
+
+.testnetWarning {
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: white;
+    width: 100%;
+    padding: 0 0;
+    text-align: center;
+    background: red;
+    font-weight: bold;
+    font-family: 'Noto Sans', sans-serif;
+    -webkit-text-size-adjust: 100%;
+}
+
+
+/* 2) Responsive overrides
+   --------------------------------------- */
+@media only screen and (max-width: 768px) {
+    * {
+        box-sizing: border-box;
+    }
+
+    .Application {
+        margin-top: 16px;
+        padding: 0 16px;
+        display: block;
+    }
+
+        /* Menu container on mobile */
+    .menu {
+        width: 100%;                    /* Full width on mobile. */
+        margin: 0 auto;                 /* Center horizontally if desired. */
+        border-radius: 0;               /* Often remove large rounding on mobile. */
+        box-shadow: none;               /* Remove or lighten box-shadow for a flatter look. */
+        position: relative;
+        left: auto;
+        top: auto;
+        background: transparent;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 30px;
+        z-index: 1;
+    }
+
+    .swap-form {
+        position: relative;
+        width: 100%;
+        height: auto;
+        top: auto;
+        padding: 0 16px;
+        padding-bottom: 50px;
+        margin-bottom: 16px;
+    }
+
+    /* HIDE the swap and bridge tabs on mobile */
+    .menu .tabs {
+        display: none;
+    }
+
+    .menu img {
+        position: relative;
+        left: auto;
+        top: auto;
+        height: 60px;
+        background: #FFFFFF;
+        width: 100%;
+        padding: 15px 0;
+        border-radius: 20px;
+        margin-bottom: 30px;
+    }
+
+    .connect-wallet-container {
+        position: relative;
+        left: auto;
+        right: auto;
+        top: auto;
+    }
+
+    .input-field, .form-group, .description-form, .swap-button, .notifications-area {
+        position: relative;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        top: auto;
+        width: 100%;
+        margin-bottom: 24px;
+    }
+
+    .notifications-area {
+        height: auto;
+    }
+
+    h1 {
+        top: auto;
+        padding-top: 60px;
+        padding-bottom: 30px;
+        height: auto;
+    }
+
+    .max {
+        margin-right: 10px;
+    }
+
+    .description-form h2{
+        font-size: 13px;
+    }
+
+    .description-form span {
+        font-size: 12px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .testnet .menu {
+        top: 0;
+        margin-top: 44px;
+    }
+
+}
