@@ -1,0 +1,81 @@
+digraph DeploymentProcess {
+    rankdir=LR;
+    node [shape=box];
+
+    subgraph cluster_user {
+        label = "User Actions";
+        style = filled;
+        color = lightgrey;
+        node [style=filled, color=white];
+
+        User [label="User"];
+        SafeGlobal [label="Safe.global Interface"];
+        RemixIDE [label="Remix IDE"];
+        BinanceScan [label="Binance Scan"];
+    }
+
+    // Contracts and Tokens
+    DeployerContract [label="IONBridgeRouterMainnetDeployer.sol"];
+    IONSwap [label="IONSwap.sol"];
+    IONBridgeRouter [label="IONBridgeRouter.sol"];
+    ICEv1 [label="ICE v.1 Token"];
+    ICEv2 [label="ICE v.2 Token"];
+    BSCNetwork [label="BSC Mainnet"];
+    MultiSigWallet [label="Multi-sig Wallet\n(Safe.global Proxy)"];
+
+    // Step 1: Create multi-sig wallet
+    User -> SafeGlobal [label="1. Create multi-sig wallet"];
+    SafeGlobal -> MultiSigWallet [label="Create Proxy Contract"];
+
+    // Step 2: Deploy Deployer Contract via Remix IDE
+    User -> RemixIDE [label="2. Open Remix IDE"];
+    RemixIDE -> DeployerContract [label="Deploy Deployer Contract"];
+    DeployerContract -> BSCNetwork [label="Deploys to"];
+
+    // Deployer Contract deploys IONBridgeRouter and IONSwap
+    DeployerContract -> IONSwap [label="Deploys"];
+    DeployerContract -> IONBridgeRouter [label="Deploys"];
+    IONSwap -> BSCNetwork [label="Deploys to"];
+    IONBridgeRouter -> BSCNetwork [label="Deploys to"];
+
+    // Step 3: User validates contracts
+    DeployerContract -> RemixIDE [label="Emits Events"];
+    RemixIDE -> User [label="3. Get Deployment Logs"];
+    User -> DeployerContract [label="Validate Deployer Contract"];
+    User -> IONSwap [label="Validate IONSwap Contract"];
+    User -> IONBridgeRouter [label="Validate IONBridgeRouter Contract"];
+
+    // Step 4: Get contract addresses
+    DeployerContract -> User [label="4. Get Contract Addresses"];
+
+    // Step 5: Check IONSwap liquidity
+    User -> DeployerContract [label="5. Check IONSwap Liquidity"];
+
+    // Step 6: Transfer liquidity to IONSwap contract
+    User -> ICEv1 [label="Transfer ICE v.1 Tokens"];
+    User -> ICEv2 [label="Transfer ICE v.2 Tokens"];
+    ICEv1 -> IONSwap [label="Provide Liquidity"];
+    ICEv2 -> IONSwap [label="Provide Liquidity"];
+
+    // Step 7: Withdraw liquidity from IONSwap
+    User -> IONSwap [label="7. Withdraw Liquidity (direct)"];
+
+    // Step 8: Withdraw liquidity using Safe.global
+    User -> SafeGlobal [label="8. Use Transaction Builder"];
+    SafeGlobal -> IONSwap [label="Execute withdrawLiquidity"];
+
+    // Step 9: Configure other components
+    User -> BSCNetwork [label="9. Configure Oracles & Bridge Website\nwith IONBridgeRouter and IONSwap addresses"];
+
+    // Interactions with Binance Scan to get ABI
+    IONSwap -> BinanceScan [label="Publish ABI"];
+    User -> BinanceScan [label="Get ABI for IONSwap"];
+
+    // Tokens exist on BSC Network
+    ICEv1 -> BSCNetwork [label="Deployed on"];
+    ICEv2 -> BSCNetwork [label="Deployed on"];
+
+    // Ownership relationships
+    MultiSigWallet -> IONSwap [label="Owner of"];
+}
+

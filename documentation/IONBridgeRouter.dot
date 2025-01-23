@@ -1,0 +1,101 @@
+digraph {
+    rankdir=LR;
+    graph [bgcolor="#F8F8F8"];
+    node [shape=record fontname="Helvetica" style="filled" color="#444444"];
+
+    IONBridgeRouter [
+    label="{IONBridgeRouter|
++ mint(data: SwapData)\l
++ burn(amount: uint256, addr: IonAddress)\l}"
+    fillcolor="#AAF0D1" // mint green
+    ];
+
+    IONSwap [
+    label="{IONSwap|
++ swapTokens(amount: uint256)\l
++ swapTokensBack(amount: uint256)\l
++ getPooledAmountOut(amount: uint256): uint256\l
++ getOtherAmountOut(amount: uint256): uint256\l
++ withdrawLiquidity(token: IERC20, receiver: address, amount: uint256)\l}"
+    fillcolor="#FFEFDB" // peach
+    ];
+
+    Bridge [
+    label="{Bridge|
++ mint(data: SwapData)\l
++ burn(amount: uint256, addr: IonAddress)\l
++ voteForMinting(data: SwapData, signatures: Signature[])\l
++ voteForNewOracleSet(hash: int, newOracles: address[], signatures: Signature[])\l
++ voteForSwitchBurn(newBurnStatus: bool, nonce: int, signatures: Signature[])\l}"
+    fillcolor="#FFE4E1" // light pink
+    ];
+
+    SignatureChecker [
+    label="{SignatureChecker|
++ checkSignature(digest: bytes32, sig: Signature)\l}"
+    fillcolor="#F0E68C" // khaki
+    ];
+
+    BridgeInterface [
+    label="{BridgeInterface|
++ voteForMinting(data: SwapData, signatures: Signature[])\l
++ voteForNewOracleSet(hash: int, newOracles: address[], signatures: Signature[])\l
++ voteForSwitchBurn(newBurnStatus: bool, nonce: int, signatures: Signature[])\l}"
+    fillcolor="#B0E0E6" // powder blue
+    ];
+
+    WrappedION [
+    label="{WrappedION|
++ mint(sd: SwapData)\l
++ burn(amount: uint256, addr: IonAddress)\l}"
+    fillcolor="#FADADD" // lavender blush
+    ];
+
+    ERC20 [
+    label="{ERC20|...}"
+    fillcolor="#F5F5DC" // beige
+    ];
+
+    IonUtils [
+    label="{IonUtils|...}"
+    fillcolor="#F5FFFA" // mintcream
+    ];
+
+    MultiSigWallet [
+    label="{MultiSigWallet|
++ submitTransaction(to: address, value: uint256, data: bytes)\l
++ confirmTransaction(txIndex: uint256)\l
++ executeTransaction(txIndex: uint256)\l
++ revokeConfirmation(txIndex: uint256)\l}"
+    fillcolor="#E0FFFF" // light cyan
+    ];
+
+    IONBridgeRouterTestnetDeployer [
+    label="{IONBridgeRouterTestnetDeployer|
++ getMultiSigWallet(): address\l
++ getIONSwap(): address\l
++ getIONBridgeRouter(): address\l}"
+    fillcolor="#D3D3D3" // light grey
+    ];
+
+    // Inheritance edges
+    Bridge -> SignatureChecker [arrowhead="empty" color="#444444"];
+    Bridge -> BridgeInterface  [arrowhead="empty" color="#444444"];
+    Bridge -> WrappedION       [arrowhead="empty" color="#444444"];
+
+    // Dependencies
+    WrappedION -> ERC20   [arrowhead="empty" color="#444444"];
+    WrappedION -> IonUtils[arrowhead="empty" color="#444444"];
+
+    // Uses relationships (dashed edges)
+    IONBridgeRouter -> IONSwap [label="uses" style="dashed" color="#444444"];
+    IONBridgeRouter -> Bridge  [label="uses" style="dashed" color="#444444"];
+
+    // Deployment relationships
+    IONBridgeRouterTestnetDeployer -> MultiSigWallet [label="deploys" style="dashed" color="#444444"];
+    IONBridgeRouterTestnetDeployer -> IONSwap [label="deploys" style="dashed" color="#444444"];
+    IONBridgeRouterTestnetDeployer -> IONBridgeRouter [label="deploys" style="dashed" color="#444444"];
+
+    // Ownership relationship
+    IONSwap -> MultiSigWallet [label="owned by" style="dashed" color="#444444"];
+}

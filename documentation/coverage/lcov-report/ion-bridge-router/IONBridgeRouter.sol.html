@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for ion-bridge-router/IONBridgeRouter.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">ion-bridge-router/</a> IONBridgeRouter.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>21/21</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>12/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>5/5</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>29/29</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
+pragma solidity 0.8.27;
+&nbsp;
+import {IONSwap} from "../swap/IONSwap.sol";
+import {IIONBridge} from "./IIONBridge.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+&nbsp;
+/**
+ * @title IONBridgeRouter
+ * @notice Acts as a facade for the `IONSwap` and `Bridge` contracts, providing a unified interface
+ * for minting and burning tokens across chains. It simplifies the user experience by abstracting
+ * the interactions with both the swap and bridge functionalities.
+ */
+contract IONBridgeRouter is ReentrancyGuard {
+&nbsp;
+    using SafeERC20 for IERC20;
+&nbsp;
+    /// @notice ICE v1 token interface
+    IERC20 public iceV1;
+&nbsp;
+    /// @notice ICE v2 token interface
+    IERC20 public iceV2;
+&nbsp;
+    /// @notice Bridge contract interface
+    IIONBridge public bridge;
+&nbsp;
+    /// @notice IONSwap contract instance
+    IONSwap public ionSwap;
+&nbsp;
+    /**
+     * @notice Emitted when tokens are successfully burned and bridged.
+     * @param user The address of the user initiating the burn.
+     * @param amount The amount of ICE v2 tokens burned.
+     * @param addr The ION network address to receive the tokens.
+     */
+    event TokensBurned(address indexed user, uint256 amount, IIONBridge.IONAddress addr);
+&nbsp;
+    /**
+     * @notice Emitted when tokens are successfully minted and swapped.
+     * @param user The address of the user receiving the tokens.
+     * @param iceV2Amount The amount of ICE v2 tokens minted.
+     * @param iceV1Amount The amount of ICE v1 tokens received after swapping.
+     */
+    event TokensMinted(address indexed user, uint256 iceV2Amount, uint256 iceV1Amount);
+&nbsp;
+    /// @notice Thrown when the provided amount is zero
+    error InvalidAmount();
+&nbsp;
+    /// @notice Thrown when the receiver in the SwapData does not match msg.sender
+    error UnauthorizedReceiver();
+&nbsp;
+    /**
+     * @notice Initializes the contract with the specified tokens and contract addresses.
+     * @param _iceV1 The address of the ICE v1 token.
+     * @param _iceV2 The address of the ICE v2 token.
+     * @param _bridge The address of the Bridge contract.
+     * @param _ionSwap The address of the IONSwap contract.
+     */
+    constructor(
+        address _iceV1,
+        address _iceV2,
+        address _bridge,
+        address _ionSwap
+    ) {
+        require(_iceV1 != address(0), "Invalid ICE v1 token address");
+        require(_iceV2 != address(0), "Invalid ICE v2 token address");
+        require(_bridge != address(0), "Invalid Bridge contract address");
+        require(_ionSwap != address(0), "Invalid IONSwap contract address");
+&nbsp;
+        iceV1 = IERC20(_iceV1);
+        iceV2 = IERC20(_iceV2);
+        bridge = IIONBridge(payable(_bridge));
+        ionSwap = IONSwap(payable(_ionSwap));
+    }
+&nbsp;
+    /**
+     * @notice Swaps ICE v1 to ICE v2 and burns the ICE v2 tokens via the Bridge contract to initiate a cross-chain transfer.
+     * @param amount The amount of ICE v1 tokens to burn and bridge.
+     * @param addr The ION network address to receive the tokens.
+     */
+    function burn(uint256 amount, IIONBridge.IONAddress memory addr) external nonReentrant {
+&nbsp;
+        if (amount == 0) {
+            revert InvalidAmount();
+        }
+&nbsp;
+        // Swap ICE v1 to ICE v2
+        uint256 iceV2Amount = _swapIceV1ToV2(amount);
+&nbsp;
+        // Approve the Bridge contract to spend ICE v2 tokens using SafeERC20's forceApprove
+        SafeERC20.forceApprove(iceV2, address(bridge), iceV2Amount);
+&nbsp;
+        // Burn the ICE v2 tokens via the Bridge contract to initiate bridging to the ION network
+        bridge.burn(iceV2Amount, addr);
+&nbsp;
+        // Emit success event
+        emit TokensBurned(msg.sender, iceV2Amount, addr);
+    }
+&nbsp;
+    /**
+     * @notice Swaps ICE v2 to ICE v1 after minting ICE v2 tokens via the Bridge contract.
+     * @param data The SwapData containing mint details from the ION network.
+     * @param signatures The array of signatures from the Bridge oracles.
+     */
+    function voteForMinting(
+        IIONBridge.SwapData memory data,
+        IIONBridge.Signature[] memory signatures
+    ) external nonReentrant {
+&nbsp;
+        // Ensure the receiver in the SwapData is the caller
+        if (data.receiver != msg.sender) {
+            revert UnauthorizedReceiver();
+        }
+&nbsp;
+        // Call the bridge to mint ICE v2 tokens to the user
+        bridge.voteForMinting(data, signatures);
+&nbsp;
+        uint256 iceV2Amount = data.amount;
+&nbsp;
+        // Swap ICE v2 to ICE v1
+        uint256 iceV1Amount = _swapIceV2ToV1(iceV2Amount);
+&nbsp;
+        // Transfer ICE v1 tokens to the user
+        iceV1.safeTransfer(msg.sender, iceV1Amount);
+&nbsp;
+        // Emit success event
+        emit TokensMinted(msg.sender, iceV2Amount, iceV1Amount);
+    }
+&nbsp;
+    /**
+     * @notice Internal function to swap ICE v1 tokens to ICE v2 tokens using the IONSwap contract.
+     * @param amount The amount of ICE v1 tokens to swap.
+     * @return iceV2Amount The amount of ICE v2 tokens received after the swap.
+     */
+    function _swapIceV1ToV2(uint256 amount) private returns (uint256 iceV2Amount) {
+&nbsp;
+        // Transfer ICE v1 tokens from the user to this contract
+        iceV1.safeTransferFrom(msg.sender, address(this), amount);
+&nbsp;
+        // Approve the IONSwap contract to spend ICE v1 tokens using SafeERC20's forceApprove
+        SafeERC20.forceApprove(iceV1, address(ionSwap), amount);
+&nbsp;
+        // Perform the swap; ICE v2 tokens will be sent to this contract
+        ionSwap.swapTokens(amount);
+&nbsp;
+        // Calculate the amount of ICE v2 tokens received
+        iceV2Amount = ionSwap.getPooledAmountOut(amount);
+&nbsp;
+        // No need to transfer ICE v2 tokens as they are already in this contract
+    }
+&nbsp;
+    /**
+     * @notice Internal function to swap ICE v2 tokens to ICE v1 tokens using the IONSwap contract.
+     * @param iceV2Amount The amount of ICE v2 tokens to swap.
+     * @return iceV1Amount The amount of ICE v1 tokens received after the swap.
+     */
+    function _swapIceV2ToV1(uint256 iceV2Amount) private returns (uint256 iceV1Amount) {
+&nbsp;
+        // Transfer ICE v2 tokens from the user to this contract
+        iceV2.safeTransferFrom(msg.sender, address(this), iceV2Amount);
+&nbsp;
+        // Approve the IONSwap contract to spend ICE v2 tokens using SafeERC20's forceApprove
+        SafeERC20.forceApprove(iceV2, address(ionSwap), iceV2Amount);
+&nbsp;
+        // Perform the reverse swap; ICE v1 tokens will be sent to this contract
+        ionSwap.swapTokensBack(iceV2Amount);
+&nbsp;
+        // Calculate the amount of ICE v1 tokens received
+        iceV1Amount = ionSwap.getOtherAmountOut(iceV2Amount);
+&nbsp;
+        // No need to transfer ICE v1 tokens as they are already in this contract
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jan 19 2025 21:43:00 GMT+0200 (Eastern European Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

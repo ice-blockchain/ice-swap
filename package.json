@@ -1,0 +1,19 @@
+{
+  "name": "solidity_uncl_swap",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.16"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.1.0",
+    "@uniswap/v3-periphery": "^1.4.4",
+    "http-server": "^14.1.1"
+  },
+  "scripts": {
+    "coverage:serve": "npm run coverage:build; http-server documentation/coverage/",
+    "coverage:build": "rm -rf documentation/coverage; npx hardhat coverage; mv coverage documentation/",
+    "flatten:IONSwap": "npx hardhat flatten contracts/swap/IONSwap.sol > build/IONSwap.flattened.sol",
+    "flatten:IONBridgeRouterTestnetDeployer": "npx hardhat flatten contracts/deploy/IONBridgeRouterTestnetDeployer.sol > build/IONBridgeRouterTestnetDeployer.flattened.sol",
+    "flatten:IONBridgeRouterMainnetDeployer": "npx hardhat flatten contracts/deploy/IONBridgeRouterMainnetDeployer.sol > build/IONBridgeRouterMainnetDeployer.flattened.sol"
+  }
+}
