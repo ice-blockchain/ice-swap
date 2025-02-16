@@ -1,140 +1,6 @@
-// Sources flattened with hardhat v2.22.16 https://hardhat.org
+// Sources flattened with hardhat v2.22.18 https://hardhat.org
 
 // SPDX-License-Identifier: MIT AND UNLICENSED
-
-// File @openzeppelin/contracts/utils/Context.sol@v5.1.0
-
-// Original license: SPDX_License_Identifier: MIT
-// OpenZeppelin Contracts (last updated v5.0.1) (utils/Context.sol)
-
-pragma solidity ^0.8.20;
-
-/**
- * @dev Provides information about the current execution context, including the
- * sender of the transaction and its data. While these are generally available
- * via msg.sender and msg.data, they should not be accessed in such a direct
- * manner, since when dealing with meta-transactions the account sending and
- * paying for execution may not be the actual sender (as far as an application
- * is concerned).
- *
- * This contract is only required for intermediate, library-like contracts.
- */
-abstract contract Context {
-    function _msgSender() internal view virtual returns (address) {
-        return msg.sender;
-    }
-
-    function _msgData() internal view virtual returns (bytes calldata) {
-        return msg.data;
-    }
-
-    function _contextSuffixLength() internal view virtual returns (uint256) {
-        return 0;
-    }
-}
-
-
-// File @openzeppelin/contracts/access/Ownable.sol@v5.1.0
-
-// Original license: SPDX_License_Identifier: MIT
-// OpenZeppelin Contracts (last updated v5.0.0) (access/Ownable.sol)
-
-pragma solidity ^0.8.20;
-
-/**
- * @dev Contract module which provides a basic access control mechanism, where
- * there is an account (an owner) that can be granted exclusive access to
- * specific functions.
- *
- * The initial owner is set to the address provided by the deployer. This can
- * later be changed with {transferOwnership}.
- *
- * This module is used through inheritance. It will make available the modifier
- * `onlyOwner`, which can be applied to your functions to restrict their use to
- * the owner.
- */
-abstract contract Ownable is Context {
-    address private _owner;
-
-    /**
-     * @dev The caller account is not authorized to perform an operation.
-     */
-    error OwnableUnauthorizedAccount(address account);
-
-    /**
-     * @dev The owner is not a valid owner account. (eg. `address(0)`)
-     */
-    error OwnableInvalidOwner(address owner);
-
-    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
-
-    /**
-     * @dev Initializes the contract setting the address provided by the deployer as the initial owner.
-     */
-    constructor(address initialOwner) {
-        if (initialOwner == address(0)) {
-            revert OwnableInvalidOwner(address(0));
-        }
-        _transferOwnership(initialOwner);
-    }
-
-    /**
-     * @dev Throws if called by any account other than the owner.
-     */
-    modifier onlyOwner() {
-        _checkOwner();
-        _;
-    }
-
-    /**
-     * @dev Returns the address of the current owner.
-     */
-    function owner() public view virtual returns (address) {
-        return _owner;
-    }
-
-    /**
-     * @dev Throws if the sender is not the owner.
-     */
-    function _checkOwner() internal view virtual {
-        if (owner() != _msgSender()) {
-            revert OwnableUnauthorizedAccount(_msgSender());
-        }
-    }
-
-    /**
-     * @dev Leaves the contract without owner. It will not be possible to call
-     * `onlyOwner` functions. Can only be called by the current owner.
-     *
-     * NOTE: Renouncing ownership will leave the contract without an owner,
-     * thereby disabling any functionality that is only available to the owner.
-     */
-    function renounceOwnership() public virtual onlyOwner {
-        _transferOwnership(address(0));
-    }
-
-    /**
-     * @dev Transfers ownership of the contract to a new account (`newOwner`).
-     * Can only be called by the current owner.
-     */
-    function transferOwnership(address newOwner) public virtual onlyOwner {
-        if (newOwner == address(0)) {
-            revert OwnableInvalidOwner(address(0));
-        }
-        _transferOwnership(newOwner);
-    }
-
-    /**
-     * @dev Transfers ownership of the contract to a new account (`newOwner`).
-     * Internal function without access restriction.
-     */
-    function _transferOwnership(address newOwner) internal virtual {
-        address oldOwner = _owner;
-        _owner = newOwner;
-        emit OwnershipTransferred(oldOwner, newOwner);
-    }
-}
-
 
 // File @openzeppelin/contracts/utils/introspection/IERC165.sol@v5.1.0
 
@@ -927,12 +793,18 @@ pragma solidity 0.8.27;
 
 
 
-
 /**
  * @title IONSwap
- * @notice This contract enables users to swap between two ERC20 tokens at a fixed exchange rate.
- * It supports both forward swaps (from `otherToken` to `pooledToken`) and reverse swaps (from `pooledToken` back to `otherToken`).
- * The exchange considers the different decimals each token might have, ensuring a fair 1:1 exchange adjusted for decimals.
+ * @notice This contract enables users to swap between two ERC20 tokens at a fixed exchange rate,
+ * adjusted for token decimals. The exchange rate ensures that swapping N tokens of one type
+ * yields N tokens of the other type, with proper decimal scaling.
+ *
+ * For example, with ICE v1 (18 decimals) and ICE v2 (9 decimals):
+ * - Swapping 1000 ICE v2 tokens will yield 1000 ICE v1 tokens
+ * - Under the hood: 1000 * 10^9 smallest units converts to 1000 * 10^18 smallest units
+ *
+ * I.e. the factual numeric number of tokens is adjusted due to different decimals, while the human-readable value
+ * remains the same.
  *
  * Forward Swap:
  * - Users provide `otherToken` and receive `pooledToken`.
@@ -942,9 +814,8 @@ pragma solidity 0.8.27;
  * - Users provide `pooledToken` and receive `otherToken`.
  * - The `pooledToken` is accumulated in the contract to provide liquidity for forward swaps.
  *
- * The contract owner can withdraw tokens from the contract, allowing for liquidity management and optimal utilization of assets.
  */
-contract IONSwap is Ownable, ReentrancyGuard {
+contract IONSwap is ReentrancyGuard {
 
     /// @notice The token that users receive after swapping (e.g., ICE v2).
     IERC20 immutable public pooledToken;
@@ -974,14 +845,6 @@ contract IONSwap is Ownable, ReentrancyGuard {
      */
     event OnSwapBack(address indexed sender, uint256 amountPooledTokenIn, uint256 amountOtherTokenOut);
 
-    /**
-     * @notice Emitted when tokens are withdrawn from the contract.
-     * @param token The address of the token withdrawn.
-     * @param receiver The address receiving the withdrawn tokens.
-     * @param amount The amount of tokens withdrawn.
-     */
-    event TokensWithdrawn(IERC20 indexed token, address indexed receiver, uint256 amount);
-
     /// @notice Thrown when provided pooled token address is the zero address.
     error InvalidPooledTokenAddress(address invalidAddress);
 
@@ -1003,25 +866,15 @@ contract IONSwap is Ownable, ReentrancyGuard {
     /// @notice Thrown when the contract's `otherToken` balance is insufficient for a reverse swap.
     error InsufficientOtherTokenBalance();
 
-    /// @notice Thrown when the zero amount is withdrawn.
-    error WithdrawAmountZero();
-
-    /// @notice Thrown when the contract's token balance is insufficient for withdrawal.
-    error InsufficientTokenBalance();
-
-    /// @notice Thrown when the receiver address is the zero address.
-    error InvalidReceiverAddress();
-
     /// @notice Thrown when Ether is sent to the contract.
     error EtherNotAccepted();
 
     /**
      * @notice Initializes the contract with the specified tokens and exchange rates.
-     * @param _owner The address to be assigned as the owner of this contract (e.g. an organization's multi-sig address).
      * @param _pooledToken The token that users will receive after swapping.
      * @param _otherToken The token that users will provide for swapping.
      */
-    constructor(address _owner, IERC20Metadata _pooledToken, IERC20Metadata _otherToken) Ownable(_owner) {
+    constructor(IERC20Metadata _pooledToken, IERC20Metadata _otherToken) {
 
         if (address(_pooledToken) == address(0)) {
             revert InvalidPooledTokenAddress(address(0));
@@ -1045,9 +898,21 @@ contract IONSwap is Ownable, ReentrancyGuard {
     }
 
     /**
-     * @notice Swaps a specific amount of `otherToken` for `pooledToken` based on the exchange rate.
-     * This is the forward swap: `otherToken` -> `pooledToken`.
-     * @param _amount The amount of `otherToken` to swap.
+     * @notice Swaps a specific amount of otherToken (ICE v1) for pooledToken (ICE v2).
+     *
+     * @dev Handles decimal adjustment internally to maintain whole token amounts:
+     * - Input: 1000 ICE v1 (1000 * 10^18 smallest units)
+     * - Output: 1000 ICE v2 (1000 * 10^9 smallest units)
+     * - The user receives the same number of whole tokens regardless of decimal differences
+     *
+     * @param _amount The amount of otherToken to swap, in smallest units (e.g., 1 token = 1 * 10^18)
+     *
+     * @notice Requirements:
+     * - Amount must be non-zero
+     * - Contract must have sufficient pooledToken balance
+     * - Caller must have approved contract to spend otherToken
+     *
+     * @notice Emits an OnSwap event with input and output amounts
      */
     function swapTokens(uint256 _amount) external nonReentrant {
 
@@ -1074,9 +939,21 @@ contract IONSwap is Ownable, ReentrancyGuard {
     }
 
     /**
-     * @notice Swaps a specific amount of `pooledToken` back to `otherToken` based on the exchange rate.
-     * This is the reverse swap: `pooledToken` -> `otherToken`.
-     * @param _amount The amount of `pooledToken` to swap back.
+     * @notice Swaps a specific amount of pooledToken (ICE v2) back to otherToken (ICE v1).
+     *
+     * @dev Handles decimal adjustment internally to maintain whole token amounts:
+     * - Input: 1000 ICE v2 (1000 * 10^9 smallest units)
+     * - Output: 1000 ICE v1 (1000 * 10^18 smallest units)
+     * - The user receives the same number of whole tokens regardless of decimal differences
+     *
+     * @param _amount The amount of pooledToken to swap, in smallest units (e.g., 1 token = 1 * 10^9)
+     *
+     * @notice Requirements:
+     * - Amount must be non-zero
+     * - Contract must have sufficient otherToken balance
+     * - Caller must have approved contract to spend pooledToken
+     *
+     * @notice Emits an OnSwapBack event with input and output amounts
      */
     function swapTokensBack(uint256 _amount) external nonReentrant {
 
@@ -1120,56 +997,6 @@ contract IONSwap is Ownable, ReentrancyGuard {
      */
     function getOtherAmountOut(uint256 _amount) public view returns (uint256 amountOut) {
         amountOut = (_amount * otherTokenRate) / pooledTokenRate;
-    }
-
-    /**
-     * @notice Withdraws a specified amount of a token to a receiver address.
-     * @dev
-     *  - Only the ION Network owners add liquidity to this contract; regular users do not deposit liquidity here.
-     *  - Thus, calling `withdrawLiquidity` cannot affect user funds.
-     *  - Furthermore, this function is restricted to the contract owner, which is managed by the ION Network
-     *    organization's multi-sig wallet, ensuring no single centralized entity controls withdrawals.
-     * @param _token The ERC20 token to withdraw.
-     * @param _receiver The address that will receive the tokens.
-     * @param _amount The amount of tokens to withdraw.
-     */
-    function withdrawLiquidity(IERC20 _token, address _receiver, uint256 _amount) external onlyOwner nonReentrant {
-
-        if (_receiver == address(0)) {
-            revert InvalidReceiverAddress();
-        }
-
-        if (_amount == 0) {
-            revert WithdrawAmountZero();
-        }
-
-        if (_token.balanceOf(address(this)) < _amount) {
-            revert InsufficientTokenBalance();
-        }
-
-        SafeERC20.safeTransfer(_token, _receiver, _amount);
-
-        emit TokensWithdrawn(_token, _receiver, _amount);
-    }
-
-    /**
-     * @notice Returns the encoded call data for withdrawing liquidity, to be used in multi-sig transactions.
-     * @param _token The ERC20 token to withdraw.
-     * @param _receiver The address that will receive the tokens.
-     * @param _amount The amount of tokens to withdraw.
-     * @return The encoded call data for the withdrawLiquidity function.
-     */
-    function withdrawLiquidityGetData(
-        IERC20 _token,
-        address _receiver,
-        uint256 _amount
-    ) external pure returns (bytes memory) {
-        return abi.encodeWithSelector(
-            IONSwap.withdrawLiquidity.selector,
-            _token,
-            _receiver,
-            _amount
-        );
     }
 
     /**
@@ -1380,11 +1207,9 @@ pragma solidity ^0.8.27;
 /// @notice Deploys and connects IONSwap and IONBridgeRouter contracts for testnet
 contract IONBridgeRouterMainnetDeployer {
     /// @notice Emitted when IONSwap contract is deployed
-    /// @param owner The address of the contract owner (multi-sig wallet)
     /// @param pooledToken The address of the token to be pooled
     /// @param otherToken The address of the second token in the pair
     event IONSwapDeployed(
-        address indexed owner,
         address indexed pooledToken,
         address indexed otherToken
     );
@@ -1400,9 +1225,6 @@ contract IONBridgeRouterMainnetDeployer {
         address indexed pooledToken,
         address swapAddress
     );
-
-    /// @notice Address of the multi-signature wallet used for contract ownership
-    address constant public safeGlobalAddress = 0xDFDe8108E14c70B6796bdd220454A80E849C7689; // Safe.global proxy
 
     /// @notice Address of the bridge token contract
     address constant public bridgeAddress = 0x1B31606fcb91BaE1DFFD646061f6dD6FB35D0Bb5; // ICE.io v.2 (Bridge)
@@ -1420,14 +1242,12 @@ contract IONBridgeRouterMainnetDeployer {
     constructor() {
         // Step 1: Deploy the IONSwap contract
         ionSwap = new IONSwap(
-            address(safeGlobalAddress),
             IERC20Metadata(bridgeAddress),
             IERC20Metadata(otherTokenAddress)
         );
 
         // Log IONSwap constructor arguments
         emit IONSwapDeployed(
-            address(safeGlobalAddress),
             bridgeAddress,
             otherTokenAddress
         );
@@ -1447,42 +1267,6 @@ contract IONBridgeRouterMainnetDeployer {
             bridgeAddress,
             address(ionSwap)
         );
-    }
-
-    /// @notice Returns the address of the aggregated multi-sig wallet.
-    /// @return Address of the multi-sig wallet.
-    function getMultiSigWallet() pure external returns (address) {
-        return address(safeGlobalAddress);
-    }
-
-    /// @notice Returns the address of the deployed IONSwap contract.
-    /// @return Address of the IONSwap contract.
-    function getIONSwap() external view returns (address) {
-        return address(ionSwap);
-    }
-
-    /// @notice Returns the address of the deployed IONBridgeRouter contract.
-    /// @return Address of the IONBridgeRouter contract.
-    function getIONBridgeRouter() external view returns (address) {
-        return address(ionBridgeRouter);
-    }
-
-    /// @notice Returns the address of the bridge token.
-    /// @return Address of the bridge token.
-    function getIONBridge() external pure returns (address) {
-        return bridgeAddress;
-    }
-
-    /// @notice Returns the address of the pooled token (same as bridge token in this case).
-    /// @return Address of the pooled token.
-    function getPooledToken() external pure returns (address) {
-        return bridgeAddress;
-    }
-
-    /// @notice Returns the address of the other token used in the swap.
-    /// @return Address of the other token.
-    function getOtherToken() external pure returns (address) {
-        return otherTokenAddress;
     }
 
     /// @notice Returns the pooled token and the other token amounts on the IONSwap contract.

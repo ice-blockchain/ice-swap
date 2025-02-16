@@ -38,7 +38,6 @@ describe("IONSwap Contract", function () {
         // Deploy the IONSwap contract
         const IONSwap = await ethers.getContractFactory("IONSwap");
         ionSwap = await IONSwap.deploy(
-            await owner.getAddress(),
             pooledToken.target,
             otherToken.target
         );

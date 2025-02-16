@@ -33,9 +33,9 @@ describe("IONBridgeRouter Deployment Test", function () {
         await deployer.waitForDeployment();
 
         // Retrieve the addresses of the deployed contracts from the deployer
-        const iceTokenAddress = await deployer.getICEToken();
-        const ionSwapAddress = await deployer.getIONSwap();
-        const ionBridgeRouterAddress = await deployer.getIONBridgeRouter();
+        const iceTokenAddress = await deployer.iceToken();
+        const ionSwapAddress = await deployer.ionSwap();
+        const ionBridgeRouterAddress = await deployer.ionBridgeRouter();
 
         // Assert that the deployed addresses are valid (non-zero)
         expect(iceTokenAddress).to.properAddress;

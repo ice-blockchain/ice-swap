@@ -27,7 +27,6 @@ describe("IONSwap Contract - receive and fallback", function () {
         // Deploy the IONSwap contract
         const IONSwapFactory = await ethers.getContractFactory("IONSwap");
         ionSwap = await IONSwapFactory.deploy(
-            await owner.getAddress(),
             pooledToken.target,
             otherToken.target
         );

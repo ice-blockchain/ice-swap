@@ -28,7 +28,6 @@ describe("IONBridgeRouter - burn function", function () {
         // Deploy IONSwap contract
         const IONSwapFactory = await ethers.getContractFactory("IONSwap");
         ionSwap = await IONSwapFactory.deploy(
-            owner.address,
             bridge.target, // pooledToken
             iceV1.target  // otherToken
         );

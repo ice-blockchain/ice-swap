@@ -2,7 +2,6 @@
 
 pragma solidity 0.8.27;
 
-import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
@@ -10,9 +9,16 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
 
 /**
  * @title IONSwap
- * @notice This contract enables users to swap between two ERC20 tokens at a fixed exchange rate.
- * It supports both forward swaps (from `otherToken` to `pooledToken`) and reverse swaps (from `pooledToken` back to `otherToken`).
- * The exchange considers the different decimals each token might have, ensuring a fair 1:1 exchange adjusted for decimals.
+ * @notice This contract enables users to swap between two ERC20 tokens at a fixed exchange rate,
+ * adjusted for token decimals. The exchange rate ensures that swapping N tokens of one type
+ * yields N tokens of the other type, with proper decimal scaling.
+ *
+ * For example, with ICE v1 (18 decimals) and ICE v2 (9 decimals):
+ * - Swapping 1000 ICE v2 tokens will yield 1000 ICE v1 tokens
+ * - Under the hood: 1000 * 10^9 smallest units converts to 1000 * 10^18 smallest units
+ *
+ * I.e. the factual numeric number of tokens is adjusted due to different decimals, while the human-readable value
+ * remains the same.
  *
  * Forward Swap:
  * - Users provide `otherToken` and receive `pooledToken`.
@@ -22,9 +28,8 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
  * - Users provide `pooledToken` and receive `otherToken`.
  * - The `pooledToken` is accumulated in the contract to provide liquidity for forward swaps.
  *
- * The contract owner can withdraw tokens from the contract, allowing for liquidity management and optimal utilization of assets.
  */
-contract IONSwap is Ownable, ReentrancyGuard {
+contract IONSwap is ReentrancyGuard {
 
     /// @notice The token that users receive after swapping (e.g., ICE v2).
     IERC20 immutable public pooledToken;
@@ -54,14 +59,6 @@ contract IONSwap is Ownable, ReentrancyGuard {
      */
     event OnSwapBack(address indexed sender, uint256 amountPooledTokenIn, uint256 amountOtherTokenOut);
 
-    /**
-     * @notice Emitted when tokens are withdrawn from the contract.
-     * @param token The address of the token withdrawn.
-     * @param receiver The address receiving the withdrawn tokens.
-     * @param amount The amount of tokens withdrawn.
-     */
-    event TokensWithdrawn(IERC20 indexed token, address indexed receiver, uint256 amount);
-
     /// @notice Thrown when provided pooled token address is the zero address.
     error InvalidPooledTokenAddress(address invalidAddress);
 
@@ -83,25 +80,15 @@ contract IONSwap is Ownable, ReentrancyGuard {
     /// @notice Thrown when the contract's `otherToken` balance is insufficient for a reverse swap.
     error InsufficientOtherTokenBalance();
 
-    /// @notice Thrown when the zero amount is withdrawn.
-    error WithdrawAmountZero();
-
-    /// @notice Thrown when the contract's token balance is insufficient for withdrawal.
-    error InsufficientTokenBalance();
-
-    /// @notice Thrown when the receiver address is the zero address.
-    error InvalidReceiverAddress();
-
     /// @notice Thrown when Ether is sent to the contract.
     error EtherNotAccepted();
 
     /**
      * @notice Initializes the contract with the specified tokens and exchange rates.
-     * @param _owner The address to be assigned as the owner of this contract (e.g. an organization's multi-sig address).
      * @param _pooledToken The token that users will receive after swapping.
      * @param _otherToken The token that users will provide for swapping.
      */
-    constructor(address _owner, IERC20Metadata _pooledToken, IERC20Metadata _otherToken) Ownable(_owner) {
+    constructor(IERC20Metadata _pooledToken, IERC20Metadata _otherToken) {
 
         if (address(_pooledToken) == address(0)) {
             revert InvalidPooledTokenAddress(address(0));
@@ -125,9 +112,21 @@ contract IONSwap is Ownable, ReentrancyGuard {
     }
 
     /**
-     * @notice Swaps a specific amount of `otherToken` for `pooledToken` based on the exchange rate.
-     * This is the forward swap: `otherToken` -> `pooledToken`.
-     * @param _amount The amount of `otherToken` to swap.
+     * @notice Swaps a specific amount of otherToken (ICE v1) for pooledToken (ICE v2).
+     *
+     * @dev Handles decimal adjustment internally to maintain whole token amounts:
+     * - Input: 1000 ICE v1 (1000 * 10^18 smallest units)
+     * - Output: 1000 ICE v2 (1000 * 10^9 smallest units)
+     * - The user receives the same number of whole tokens regardless of decimal differences
+     *
+     * @param _amount The amount of otherToken to swap, in smallest units (e.g., 1 token = 1 * 10^18)
+     *
+     * @notice Requirements:
+     * - Amount must be non-zero
+     * - Contract must have sufficient pooledToken balance
+     * - Caller must have approved contract to spend otherToken
+     *
+     * @notice Emits an OnSwap event with input and output amounts
      */
     function swapTokens(uint256 _amount) external nonReentrant {
 
@@ -154,9 +153,21 @@ contract IONSwap is Ownable, ReentrancyGuard {
     }
 
     /**
-     * @notice Swaps a specific amount of `pooledToken` back to `otherToken` based on the exchange rate.
-     * This is the reverse swap: `pooledToken` -> `otherToken`.
-     * @param _amount The amount of `pooledToken` to swap back.
+     * @notice Swaps a specific amount of pooledToken (ICE v2) back to otherToken (ICE v1).
+     *
+     * @dev Handles decimal adjustment internally to maintain whole token amounts:
+     * - Input: 1000 ICE v2 (1000 * 10^9 smallest units)
+     * - Output: 1000 ICE v1 (1000 * 10^18 smallest units)
+     * - The user receives the same number of whole tokens regardless of decimal differences
+     *
+     * @param _amount The amount of pooledToken to swap, in smallest units (e.g., 1 token = 1 * 10^9)
+     *
+     * @notice Requirements:
+     * - Amount must be non-zero
+     * - Contract must have sufficient otherToken balance
+     * - Caller must have approved contract to spend pooledToken
+     *
+     * @notice Emits an OnSwapBack event with input and output amounts
      */
     function swapTokensBack(uint256 _amount) external nonReentrant {
 
@@ -200,56 +211,6 @@ contract IONSwap is Ownable, ReentrancyGuard {
      */
     function getOtherAmountOut(uint256 _amount) public view returns (uint256 amountOut) {
         amountOut = (_amount * otherTokenRate) / pooledTokenRate;
-    }
-
-    /**
-     * @notice Withdraws a specified amount of a token to a receiver address.
-     * @dev
-     *  - Only the ION Network owners add liquidity to this contract; regular users do not deposit liquidity here.
-     *  - Thus, calling `withdrawLiquidity` cannot affect user funds.
-     *  - Furthermore, this function is restricted to the contract owner, which is managed by the ION Network
-     *    organization's multi-sig wallet, ensuring no single centralized entity controls withdrawals.
-     * @param _token The ERC20 token to withdraw.
-     * @param _receiver The address that will receive the tokens.
-     * @param _amount The amount of tokens to withdraw.
-     */
-    function withdrawLiquidity(IERC20 _token, address _receiver, uint256 _amount) external onlyOwner nonReentrant {
-
-        if (_receiver == address(0)) {
-            revert InvalidReceiverAddress();
-        }
-
-        if (_amount == 0) {
-            revert WithdrawAmountZero();
-        }
-
-        if (_token.balanceOf(address(this)) < _amount) {
-            revert InsufficientTokenBalance();
-        }
-
-        SafeERC20.safeTransfer(_token, _receiver, _amount);
-
-        emit TokensWithdrawn(_token, _receiver, _amount);
-    }
-
-    /**
-     * @notice Returns the encoded call data for withdrawing liquidity, to be used in multi-sig transactions.
-     * @param _token The ERC20 token to withdraw.
-     * @param _receiver The address that will receive the tokens.
-     * @param _amount The amount of tokens to withdraw.
-     * @return The encoded call data for the withdrawLiquidity function.
-     */
-    function withdrawLiquidityGetData(
-        IERC20 _token,
-        address _receiver,
-        uint256 _amount
-    ) external pure returns (bytes memory) {
-        return abi.encodeWithSelector(
-            IONSwap.withdrawLiquidity.selector,
-            _token,
-            _receiver,
-            _amount
-        );
     }
 
     /**

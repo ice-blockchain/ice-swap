@@ -31,7 +31,6 @@ describe("IONBridgeRouter Constructor", function () {
 
         // Deploy IONSwap contract
         ionSwap = await IONSwapFactory.deploy(
-            await owner.getAddress(),
             iceV2.target,
             iceV1.target
         );

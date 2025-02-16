@@ -1,5 +1,188 @@
 # ICE Swap-Bridge Deployments
 
+## ION Bridge Router Testnet Deployment 2024.02.13 (release candidate #2)
+
+### Resulting addresses
+Deployer address: `0x84b09b87fda11f845b2e611da5ea5c4f4bb9df0c`
+https://testnet.bscscan.com/address/0x84b09b87fda11f845b2e611da5ea5c4f4bb9df0c
+
+IONBridgeRouter address: `0x4A4DF9b7f529DC9c88c4b21f55aAe1a806eEfE4c`
+https://testnet.bscscan.com/address/0x4A4DF9b7f529DC9c88c4b21f55aAe1a806eEfE4c
+
+IONSwap address: `0x16f421aE3be15210553559793290269e2a3A6E5a`
+https://testnet.bscscan.com/address/0x16f421aE3be15210553559793290269e2a3A6E5a
+
+### Deployment log
+
+```text
+[block:48253097 txIndex:2]from: 0x37b...62491to: IONBridgeRouterTestnetDeployer.(constructor)value: 0 weidata: 0x608...b0033logs: 2hash: 0x728...78e87
+status	0x1 Transaction mined and execution succeed
+transaction hash	0x6c59b7a07ebc36402d361ab1fb466fe75f981c06802ed9e64119484e418d2008
+block hash	0x728d07e05e4f9e1e703103a51f76da293715427e4e7cbc7cb29e88fd2dd78e87
+block number	48253097
+contract address	0x84b09b87fda11f845b2e611da5ea5c4f4bb9df0c
+from	0x37bc9cdd62bebcabb9f3104556779f1ca2d62491
+to	IONBridgeRouterTestnetDeployer.(constructor)
+gas	1578897 gas
+transaction cost	1578897 gas 
+input	0x608...b0033
+decoded input	{}
+decoded output	 - 
+logs	[
+	{
+		"from": "0x84b09b87fda11f845b2e611da5ea5c4f4bb9df0c",
+		"topic": "0x71af5bed2316069d5e0d6c8ea5855878ac0b425427d2b11469a1bc6e300c6fdb",
+		"event": "IONSwapDeployed",
+		"args": {
+			"0": "0xC632928ab4fC995e04b4D66da62C28cE56e2bd73",
+			"1": "0x2A0864a15a63AC237a46405CCd6aD7Fa0513050D",
+			"pooledToken": "0xC632928ab4fC995e04b4D66da62C28cE56e2bd73",
+			"otherToken": "0x2A0864a15a63AC237a46405CCd6aD7Fa0513050D"
+		}
+	},
+	{
+		"from": "0x84b09b87fda11f845b2e611da5ea5c4f4bb9df0c",
+		"topic": "0xa062cb6b0ba82ca946a470fffd62688ee66e17c476cb1d97eec7de15e66fe032",
+		"event": "IONBridgeRouterDeployed",
+		"args": {
+			"0": "0x2A0864a15a63AC237a46405CCd6aD7Fa0513050D",
+			"1": "0xC632928ab4fC995e04b4D66da62C28cE56e2bd73",
+			"2": "0xC632928ab4fC995e04b4D66da62C28cE56e2bd73",
+			"3": "0x16f421aE3be15210553559793290269e2a3A6E5a",
+			"otherToken": "0x2A0864a15a63AC237a46405CCd6aD7Fa0513050D",
+			"bridgeToken": "0xC632928ab4fC995e04b4D66da62C28cE56e2bd73",
+			"pooledToken": "0xC632928ab4fC995e04b4D66da62C28cE56e2bd73",
+			"swapAddress": "0x16f421aE3be15210553559793290269e2a3A6E5a"
+		}
+	}
+]
+raw logs	[
+  {
+    "address": "0x84b09b87fda11f845b2e611da5ea5c4f4bb9df0c",
+    "topics": [
+      "0x71af5bed2316069d5e0d6c8ea5855878ac0b425427d2b11469a1bc6e300c6fdb",
+      "0x000000000000000000000000c632928ab4fc995e04b4d66da62c28ce56e2bd73",
+      "0x0000000000000000000000002a0864a15a63ac237a46405ccd6ad7fa0513050d"
+    ],
+    "data": "0x",
+    "blockNumber": "0x2e048a9",
+    "transactionHash": "0x6c59b7a07ebc36402d361ab1fb466fe75f981c06802ed9e64119484e418d2008",
+    "transactionIndex": "0x2",
+    "blockHash": "0x728d07e05e4f9e1e703103a51f76da293715427e4e7cbc7cb29e88fd2dd78e87",
+    "logIndex": "0x1",
+    "removed": false
+  },
+  {
+    "address": "0x84b09b87fda11f845b2e611da5ea5c4f4bb9df0c",
+    "topics": [
+      "0xa062cb6b0ba82ca946a470fffd62688ee66e17c476cb1d97eec7de15e66fe032",
+      "0x0000000000000000000000002a0864a15a63ac237a46405ccd6ad7fa0513050d",
+      "0x000000000000000000000000c632928ab4fc995e04b4d66da62c28ce56e2bd73",
+      "0x000000000000000000000000c632928ab4fc995e04b4d66da62c28ce56e2bd73"
+    ],
+    "data": "0x00000000000000000000000016f421ae3be15210553559793290269e2a3a6e5a",
+    "blockNumber": "0x2e048a9",
+    "transactionHash": "0x6c59b7a07ebc36402d361ab1fb466fe75f981c06802ed9e64119484e418d2008",
+    "transactionIndex": "0x2",
+    "blockHash": "0x728d07e05e4f9e1e703103a51f76da293715427e4e7cbc7cb29e88fd2dd78e87",
+    "logIndex": "0x2",
+    "removed": false
+  }
+]
+```
+
+## ION Bridge Router Mainnet Deployment 2024.02.13 (release candidate #2)
+
+### Resulting addresses
+Deployer address: `0x0eb8992836dd1a6b36f93a745f84a1adeeaf3716`
+https://bscscan.com/address/0x0eb8992836dd1a6b36f93a745f84a1adeeaf3716
+
+IONBridgeRouter address: `0x227002f9042ce429e9055189A2a41e9D8D69D9Be`
+https://bscscan.com/address/0x227002f9042ce429e9055189A2a41e9D8D69D9Be
+
+IONSwap address: `0xecA717337Ba328414908413a6a19d67C00BFAcE2`
+https://bscscan.com/address/0xecA717337Ba328414908413a6a19d67C00BFAcE2
+
+### Deployment log
+
+```text
+[block:46623474 txIndex:71]from: 0x955...24cc4to: IONBridgeRouterMainnetDeployer.(constructor)value: 0 weidata: 0x608...b0033logs: 2hash: 0x619...f5e21
+status	0x1 Transaction mined and execution succeed
+transaction hash	0xc0e695bce3beb22da482744614ce0c9cacd1731065fc768a0b08fc835ead12b2
+block hash	0x61903a1acb97b19f6e391cc65973e8b1cbb6f370646623d998fc316b0a6f5e21
+block number	46623474
+contract address	0x0eb8992836dd1a6b36f93a745f84a1adeeaf3716
+from	0x955ca2bc020e10abaab75f8c92e9b9b80a224cc4
+to	IONBridgeRouterMainnetDeployer.(constructor)
+gas	1578898 gas
+transaction cost	1578898 gas 
+input	0x608...b0033
+decoded input	{}
+decoded output	 - 
+logs	[
+	{
+		"from": "0x0eb8992836dd1a6b36f93a745f84a1adeeaf3716",
+		"topic": "0x71af5bed2316069d5e0d6c8ea5855878ac0b425427d2b11469a1bc6e300c6fdb",
+		"event": "IONSwapDeployed",
+		"args": {
+			"0": "0x1B31606fcb91BaE1DFFD646061f6dD6FB35D0Bb5",
+			"1": "0xc335Df7C25b72eEC661d5Aa32a7c2B7b2a1D1874",
+			"pooledToken": "0x1B31606fcb91BaE1DFFD646061f6dD6FB35D0Bb5",
+			"otherToken": "0xc335Df7C25b72eEC661d5Aa32a7c2B7b2a1D1874"
+		}
+	},
+	{
+		"from": "0x0eb8992836dd1a6b36f93a745f84a1adeeaf3716",
+		"topic": "0xa062cb6b0ba82ca946a470fffd62688ee66e17c476cb1d97eec7de15e66fe032",
+		"event": "IONBridgeRouterDeployed",
+		"args": {
+			"0": "0xc335Df7C25b72eEC661d5Aa32a7c2B7b2a1D1874",
+			"1": "0x1B31606fcb91BaE1DFFD646061f6dD6FB35D0Bb5",
+			"2": "0x1B31606fcb91BaE1DFFD646061f6dD6FB35D0Bb5",
+			"3": "0xecA717337Ba328414908413a6a19d67C00BFAcE2",
+			"otherToken": "0xc335Df7C25b72eEC661d5Aa32a7c2B7b2a1D1874",
+			"bridgeToken": "0x1B31606fcb91BaE1DFFD646061f6dD6FB35D0Bb5",
+			"pooledToken": "0x1B31606fcb91BaE1DFFD646061f6dD6FB35D0Bb5",
+			"swapAddress": "0xecA717337Ba328414908413a6a19d67C00BFAcE2"
+		}
+	}
+]
+raw logs	[
+  {
+    "address": "0x0eb8992836dd1a6b36f93a745f84a1adeeaf3716",
+    "topics": [
+      "0x71af5bed2316069d5e0d6c8ea5855878ac0b425427d2b11469a1bc6e300c6fdb",
+      "0x0000000000000000000000001b31606fcb91bae1dffd646061f6dd6fb35d0bb5",
+      "0x000000000000000000000000c335df7c25b72eec661d5aa32a7c2b7b2a1d1874"
+    ],
+    "data": "0x",
+    "blockNumber": "0x2c76af2",
+    "transactionHash": "0xc0e695bce3beb22da482744614ce0c9cacd1731065fc768a0b08fc835ead12b2",
+    "transactionIndex": "0x47",
+    "blockHash": "0x61903a1acb97b19f6e391cc65973e8b1cbb6f370646623d998fc316b0a6f5e21",
+    "logIndex": "0x94",
+    "removed": false
+  },
+  {
+    "address": "0x0eb8992836dd1a6b36f93a745f84a1adeeaf3716",
+    "topics": [
+      "0xa062cb6b0ba82ca946a470fffd62688ee66e17c476cb1d97eec7de15e66fe032",
+      "0x000000000000000000000000c335df7c25b72eec661d5aa32a7c2b7b2a1d1874",
+      "0x0000000000000000000000001b31606fcb91bae1dffd646061f6dd6fb35d0bb5",
+      "0x0000000000000000000000001b31606fcb91bae1dffd646061f6dd6fb35d0bb5"
+    ],
+    "data": "0x000000000000000000000000eca717337ba328414908413a6a19d67c00bface2",
+    "blockNumber": "0x2c76af2",
+    "transactionHash": "0xc0e695bce3beb22da482744614ce0c9cacd1731065fc768a0b08fc835ead12b2",
+    "transactionIndex": "0x47",
+    "blockHash": "0x61903a1acb97b19f6e391cc65973e8b1cbb6f370646623d998fc316b0a6f5e21",
+    "logIndex": "0x95",
+    "removed": false
+  }
+]
+>
+```
+
 ## ION Bridge Router Mainnet Deployment 2025.01.20 (release candidate #1)
 
 ### Resulting addresses

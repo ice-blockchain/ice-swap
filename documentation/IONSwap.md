@@ -2,35 +2,35 @@
 
 ## Introduction
 
-The **ION Swap Contract** (`IONSwap.sol`) is a smart contract designed to facilitate the swapping of tokens between two ERC20 tokens at a fixed exchange rate (specifically for swapping between the old `ICE` (`ICE v1`) and the new `ICE` (`ICE v2`) tokens). This contract ensures a fair and predictable `1:1` exchange adjusted for their respective decimal representations.
-
-The contract supports both **forward swaps** (from `ICE v1` to `ICE v2`) and **reverse swaps** (from `ICE v2` back to `ICE v1`), allowing users to exchange tokens seamlessly in both directions. It handles the calculations necessary to adjust for token decimals and incorporates mechanisms to maintain liquidity balance within the contract.
+The **ION Swap Contract** (`IONSwap.sol`) facilitates swapping between ICE v1 (18 decimals) and ICE v2 (9 decimals) tokens. While the contract maintains a 1:1 token exchange rate (one ICE v1 token yields one ICE v2 token), it handles the decimal differences internally to ensure proper value preservation.
 
 ---
 
-## How the Swap Works
+## Exchange Rate and Token Decimals
 
-### Exchange Rate Adjustment
+### Token Specifications
+- **ICE v1**: 18 decimals
+    - 1 ICE v1 token = 1 * 10^18 smallest units
+- **ICE v2**: 9 decimals
+    - 1 ICE v2 token = 1 * 10^9 smallest units
 
-- **Fixed `1:1` Exchange Rate**: The contract swaps tokens at a `1:1` rate, adjusted for the different decimals of each token.
-- **Token Decimals**:
-  - **Pooled Token (`pooledToken`)**: The token users receive after swapping (e.g., `ICE v2`).
-  - **Other Token (`otherToken`)**: The token users provide for swapping (e.g., `ICE v1`).
-- **Rate Calculation**:
-  - The contract calculates the exchange rate based on the decimals of each token.
-  - It ensures that the value of tokens swapped is equivalent when adjusted for their decimals.
+### How Decimal Adjustment Works
 
-### Decimals Adjustment Example
+When you swap tokens:
+1. Your input amount is first converted to smallest units (multiplied by 10^18 for ICE v1 or 10^9 for ICE v2)
+2. The contract performs the conversion while preserving the number of **whole** tokens
+3. The output is adjusted to match the decimals of the target token
 
-If `pooledToken` has **9 decimals** and `otherToken` has **18 decimals**:
+For example:
+- **Forward Swap** (1000 ICE v1 to ICE v2):
+    - Input: 1000 * 10^18 smallest units of ICE v1
+    - Output: 1000 * 10^9 smallest units of ICE v2
+    - Result: You receive 1000 **whole** ICE v2 tokens
 
-- **Rates**:
-  - `pooledTokenRate = 10^9`
-  - `otherTokenRate = 10^18`
-- **Forward Swap Calculation**:
-  - Swapping **1 * 10^18** units of `otherToken` will yield **1 * 10^9** units of `pooledToken`.
-- **Reverse Swap Calculation**:
-  - Swapping **1 * 10^9** units of `pooledToken` will yield **1 * 10^18** units of `otherToken`.
+- **Reverse Swap** (1000 ICE v2 to ICE v1):
+    - Input: 1000 * 10^9 smallest units of ICE v2
+    - Output: 1000 * 10^18 smallest units of ICE v1
+    - Result: You receive 1000 **whole** ICE v1 tokens
 
 ### Swapping Process
 

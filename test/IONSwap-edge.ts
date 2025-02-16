@@ -31,7 +31,6 @@ describe("IONSwap Contract - Error Cases", function () {
             // Attempt to deploy IONSwap with pooledToken as zero address
             await expect(
                 IONSwapFactory.deploy(
-                    await owner.getAddress(),
                     zeroAddress,
                     otherToken.target
                 )
@@ -56,7 +55,6 @@ describe("IONSwap Contract - Error Cases", function () {
             // Attempt to deploy IONSwap with otherToken as zero address
             await expect(
                 IONSwapFactory.deploy(
-                    await owner.getAddress(),
                     pooledToken.target,
                     zeroAddress
                 )
@@ -79,7 +77,6 @@ describe("IONSwap Contract - Error Cases", function () {
             // Attempt to deploy IONSwap with same token for both pooledToken and otherToken
             await expect(
                 IONSwapFactory.deploy(
-                    await owner.getAddress(),
                     token.target,
                     token.target
                 )
@@ -118,7 +115,6 @@ describe("IONSwap Contract - Error Cases", function () {
 
             // Deploy IONSwap contract
             ionSwap = await IONSwapFactory.deploy(
-                ownerAddress,
                 pooledToken.target,
                 otherToken.target
             );
@@ -176,7 +172,6 @@ describe("IONSwap Contract - Error Cases", function () {
 
             // Deploy IONSwap contract
             ionSwap = await IONSwapFactory.deploy(
-                ownerAddress,
                 pooledToken.target,
                 otherToken.target
             );

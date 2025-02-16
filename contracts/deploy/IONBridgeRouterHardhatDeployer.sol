@@ -18,11 +18,9 @@ contract IONBridgeRouterHardhatDeployer {
     event ICETokenDeployed(address indexed iceTokenAddress);
 
     /// @notice Emitted when IONSwap contract is deployed
-    /// @param owner The address of the contract owner (multi-sig wallet)
     /// @param pooledToken The address of the token to be pooled
     /// @param otherToken The address of the second token in the pair
     event IONSwapDeployed(
-        address indexed owner,
         address indexed pooledToken,
         address indexed otherToken
     );
@@ -38,9 +36,6 @@ contract IONBridgeRouterHardhatDeployer {
         address indexed bridgeAddress,
         address swapAddress
     );
-
-    /// @notice Address of the multi-signature wallet used for contract ownership
-    address public safeGlobalAddress = 0xae4094223718f34f581485E56C209bfa281290dc;
 
     address public bridgeAddress;
 
@@ -65,12 +60,10 @@ contract IONBridgeRouterHardhatDeployer {
 
         // Step 3: Deploy the IONSwap contract
         ionSwap = new IONSwap(
-            address(safeGlobalAddress),
             IERC20Metadata(bridgeAddress),
             IERC20Metadata(address(iceToken))
         );
         emit IONSwapDeployed(
-            address(safeGlobalAddress),
             address(bridgeAddress),
             address(iceToken)
         );
@@ -90,29 +83,5 @@ contract IONBridgeRouterHardhatDeployer {
         );
 
         // The IONSwap's owner is already set to safeGlobalAddress in constructor
-    }
-
-    /// @notice Returns the address of the deployed ICEToken contract.
-    /// @return Address of the ICEToken contract.
-    function getICEToken() external view returns (address) {
-        return address(iceToken);
-    }
-
-    /// @notice Returns the address of the deployed Bridge contract.
-    /// @return Address of the Bridge contract.
-    function getBridge() external view returns (address) {
-        return address(bridgeAddress);
-    }
-
-    /// @notice Returns the address of the deployed IONSwap contract.
-    /// @return Address of the IONSwap contract.
-    function getIONSwap() external view returns (address) {
-        return address(ionSwap);
-    }
-
-    /// @notice Returns the address of the deployed IONBridgeRouter contract.
-    /// @return Address of the IONBridgeRouter contract.
-    function getIONBridgeRouter() external view returns (address) {
-        return address(ionBridgeRouter);
     }
 }

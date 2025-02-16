@@ -28,7 +28,6 @@ describe("IONBridgeRouter - voteForMinting function", function () {
         // Deploy the IONSwap contract
         const IONSwapFactory = await ethers.getContractFactory("IONSwap");
         ionSwap = await IONSwapFactory.deploy(
-            owner.address,
             bridge.target,
             iceV1.target
         );
