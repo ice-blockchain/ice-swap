@@ -314,7 +314,43 @@
 269
 270
 271
-272</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -447,6 +483,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -467,6 +515,18 @@
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -571,8 +631,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -597,9 +655,16 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
 &nbsp;
 /**
  * @title IONSwap
- * @notice This contract enables users to swap between two ERC20 tokens at a fixed exchange rate.
- * It supports both forward swaps (from `otherToken` to `pooledToken`) and reverse swaps (from `pooledToken` back to `otherToken`).
- * The exchange considers the different decimals each token might have, ensuring a fair 1:1 exchange adjusted for decimals.
+ * @notice This contract enables users to swap between two ERC20 tokens at a fixed exchange rate,
+ * adjusted for token decimals. The exchange rate ensures that swapping N tokens of one type
+ * yields N tokens of the other type, with proper decimal scaling.
+ *
+ * For example, with ICE v1 (18 decimals) and ICE v2 (9 decimals):
+ * - Swapping 1000 ICE v2 tokens will yield 1000 ICE v1 tokens
+ * - Under the hood: 1000 * 10^9 smallest units converts to 1000 * 10^18 smallest units
+ *
+ * I.e. the factual numeric number of tokens is adjusted due to different decimals, while the human-readable value
+ * remains the same.
  *
  * Forward Swap:
  * - Users provide `otherToken` and receive `pooledToken`.
@@ -712,9 +777,21 @@ contract IONSwap is Ownable, ReentrancyGuard {
     }
 &nbsp;
     /**
-     * @notice Swaps a specific amount of `otherToken` for `pooledToken` based on the exchange rate.
-     * This is the forward swap: `otherToken` -&gt; `pooledToken`.
-     * @param _amount The amount of `otherToken` to swap.
+     * @notice Swaps a specific amount of otherToken (ICE v1) for pooledToken (ICE v2).
+     *
+     * @dev Handles decimal adjustment internally to maintain whole token amounts:
+     * - Input: 1000 ICE v1 (1000 * 10^18 smallest units)
+     * - Output: 1000 ICE v2 (1000 * 10^9 smallest units)
+     * - The user receives the same number of whole tokens regardless of decimal differences
+     *
+     * @param _amount The amount of otherToken to swap, in smallest units (e.g., 1 token = 1 * 10^18)
+     *
+     * @notice Requirements:
+     * - Amount must be non-zero
+     * - Contract must have sufficient pooledToken balance
+     * - Caller must have approved contract to spend otherToken
+     *
+     * @notice Emits an OnSwap event with input and output amounts
      */
     function swapTokens(uint256 _amount) external nonReentrant {
 &nbsp;
@@ -741,9 +818,21 @@ contract IONSwap is Ownable, ReentrancyGuard {
     }
 &nbsp;
     /**
-     * @notice Swaps a specific amount of `pooledToken` back to `otherToken` based on the exchange rate.
-     * This is the reverse swap: `pooledToken` -&gt; `otherToken`.
-     * @param _amount The amount of `pooledToken` to swap back.
+     * @notice Swaps a specific amount of pooledToken (ICE v2) back to otherToken (ICE v1).
+     *
+     * @dev Handles decimal adjustment internally to maintain whole token amounts:
+     * - Input: 1000 ICE v2 (1000 * 10^9 smallest units)
+     * - Output: 1000 ICE v1 (1000 * 10^18 smallest units)
+     * - The user receives the same number of whole tokens regardless of decimal differences
+     *
+     * @param _amount The amount of pooledToken to swap, in smallest units (e.g., 1 token = 1 * 10^9)
+     *
+     * @notice Requirements:
+     * - Amount must be non-zero
+     * - Contract must have sufficient otherToken balance
+     * - Caller must have approved contract to spend pooledToken
+     *
+     * @notice Emits an OnSwapBack event with input and output amounts
      */
     function swapTokensBack(uint256 _amount) external nonReentrant {
 &nbsp;
@@ -831,11 +920,9 @@ contract IONSwap is Ownable, ReentrancyGuard {
         address _receiver,
         uint256 _amount
     ) external pure returns (bytes memory) {
-        return abi.encodeWithSelector(
-            IONSwap.withdrawLiquidity.selector,
-            _token,
-            _receiver,
-            _amount
+        return abi.encodeCall(
+            IONSwap.withdrawLiquidity,
+            (_token, _receiver, _amount)
         );
     }
 &nbsp;
@@ -862,7 +949,7 @@ contract IONSwap is Ownable, ReentrancyGuard {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Feb 16 2025 21:16:39 GMT+0200 (Eastern European Standard Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Feb 07 2025 19:43:58 GMT+0200 (Eastern European Standard Time)
 </div>
 </div>
 <script src="../prettify.js"></script>
