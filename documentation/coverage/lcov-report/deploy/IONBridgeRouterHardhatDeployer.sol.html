@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">85.71% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/7</span>
+        <span class='fraction'>3/3</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">80% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>4/5</span>
+        <span class='fraction'>1/1</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">90.91% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>10/11</span>
+        <span class='fraction'>7/7</span>
       </div>
     </div>
   </div>
@@ -130,43 +130,7 @@
 85
 86
 87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+88</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -231,14 +195,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -251,32 +207,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
@@ -299,11 +237,9 @@ contract IONBridgeRouterHardhatDeployer {
     event ICETokenDeployed(address indexed iceTokenAddress);
 &nbsp;
     /// @notice Emitted when IONSwap contract is deployed
-    /// @param owner The address of the contract owner (multi-sig wallet)
     /// @param pooledToken The address of the token to be pooled
     /// @param otherToken The address of the second token in the pair
     event IONSwapDeployed(
-        address indexed owner,
         address indexed pooledToken,
         address indexed otherToken
     );
@@ -319,9 +255,6 @@ contract IONBridgeRouterHardhatDeployer {
         address indexed bridgeAddress,
         address swapAddress
     );
-&nbsp;
-    /// @notice Address of the multi-signature wallet used for contract ownership
-    address public safeGlobalAddress = 0xae4094223718f34f581485E56C209bfa281290dc;
 &nbsp;
     address public bridgeAddress;
 &nbsp;
@@ -346,12 +279,10 @@ contract IONBridgeRouterHardhatDeployer {
 &nbsp;
         // Step 3: Deploy the IONSwap contract
         ionSwap = new IONSwap(
-            address(safeGlobalAddress),
             IERC20Metadata(bridgeAddress),
             IERC20Metadata(address(iceToken))
         );
         emit IONSwapDeployed(
-            address(safeGlobalAddress),
             address(bridgeAddress),
             address(iceToken)
         );
@@ -372,30 +303,6 @@ contract IONBridgeRouterHardhatDeployer {
 &nbsp;
         // The IONSwap's owner is already set to safeGlobalAddress in constructor
     }
-&nbsp;
-    /// @notice Returns the address of the deployed ICEToken contract.
-    /// @return Address of the ICEToken contract.
-    function getICEToken() external view returns (address) {
-        return address(iceToken);
-    }
-&nbsp;
-    /// @notice Returns the address of the deployed Bridge contract.
-    /// @return Address of the Bridge contract.
-<span class="fstat-no" title="function not covered" >    function getBridge() external view returns (address) {</span>
-<span class="cstat-no" title="statement not covered" >        return address(bridgeAddress);</span>
-    }
-&nbsp;
-    /// @notice Returns the address of the deployed IONSwap contract.
-    /// @return Address of the IONSwap contract.
-    function getIONSwap() external view returns (address) {
-        return address(ionSwap);
-    }
-&nbsp;
-    /// @notice Returns the address of the deployed IONBridgeRouter contract.
-    /// @return Address of the IONBridgeRouter contract.
-    function getIONBridgeRouter() external view returns (address) {
-        return address(ionBridgeRouter);
-    }
 }
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -403,7 +310,7 @@ contract IONBridgeRouterHardhatDeployer {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Feb 07 2025 19:43:58 GMT+0200 (Eastern European Standard Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Feb 16 2025 21:30:14 GMT+0200 (Eastern European Standard Time)
 </div>
 </div>
 <script src="../prettify.js"></script>

@@ -22,7 +22,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>0/8</span>
+        <span class='fraction'>0/2</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/8</span>
+        <span class='fraction'>0/2</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>0/12</span>
+        <span class='fraction'>0/6</span>
       </div>
     </div>
   </div>
@@ -125,55 +125,7 @@
 80
 81
 82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+83</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -225,26 +177,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -258,31 +197,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -296,20 +210,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.27;
 &nbsp;
-import {IONSwap} from "../swap/IONSwap.sol";
 import {IONBridgeRouter} from "../ion-bridge-router/IONBridgeRouter.sol";
-import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
+import {IONSwap} from "../swap/IONSwap.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 &nbsp;
 /// @title ION Bridge Router Testnet Deployer
 /// @notice Deploys and connects IONSwap and IONBridgeRouter contracts for testnet
 contract IONBridgeRouterMainnetDeployer {
     /// @notice Emitted when IONSwap contract is deployed
-    /// @param owner The address of the contract owner (multi-sig wallet)
     /// @param pooledToken The address of the token to be pooled
     /// @param otherToken The address of the second token in the pair
     event IONSwapDeployed(
-        address indexed owner,
         address indexed pooledToken,
         address indexed otherToken
     );
@@ -325,9 +237,6 @@ contract IONBridgeRouterMainnetDeployer {
         address indexed pooledToken,
         address swapAddress
     );
-&nbsp;
-    /// @notice Address of the multi-signature wallet used for contract ownership
-    address constant public safeGlobalAddress = 0xDFDe8108E14c70B6796bdd220454A80E849C7689; // Safe.global proxy
 &nbsp;
     /// @notice Address of the bridge token contract
     address constant public bridgeAddress = 0x1B31606fcb91BaE1DFFD646061f6dD6FB35D0Bb5; // ICE.io v.2 (Bridge)
@@ -345,14 +254,12 @@ contract IONBridgeRouterMainnetDeployer {
 <span class="fstat-no" title="function not covered" >    constructor() {</span>
         // Step 1: Deploy the IONSwap contract
         ionSwap = new IONSwap(
-            address(safeGlobalAddress),
             IERC20Metadata(bridgeAddress),
             IERC20Metadata(otherTokenAddress)
         );
 &nbsp;
         // Log IONSwap constructor arguments
 <span class="cstat-no" title="statement not covered" >        emit IONSwapDeployed(</span>
-            address(safeGlobalAddress),
             bridgeAddress,
             otherTokenAddress
         );
@@ -374,42 +281,6 @@ contract IONBridgeRouterMainnetDeployer {
         );
     }
 &nbsp;
-    /// @notice Returns the address of the aggregated multi-sig wallet.
-    /// @return Address of the multi-sig wallet.
-<span class="fstat-no" title="function not covered" >    function getMultiSigWallet() pure external returns (address) {</span>
-<span class="cstat-no" title="statement not covered" >        return address(safeGlobalAddress);</span>
-    }
-&nbsp;
-    /// @notice Returns the address of the deployed IONSwap contract.
-    /// @return Address of the IONSwap contract.
-<span class="fstat-no" title="function not covered" >    function getIONSwap() external view returns (address) {</span>
-<span class="cstat-no" title="statement not covered" >        return address(ionSwap);</span>
-    }
-&nbsp;
-    /// @notice Returns the address of the deployed IONBridgeRouter contract.
-    /// @return Address of the IONBridgeRouter contract.
-<span class="fstat-no" title="function not covered" >    function getIONBridgeRouter() external view returns (address) {</span>
-<span class="cstat-no" title="statement not covered" >        return address(ionBridgeRouter);</span>
-    }
-&nbsp;
-    /// @notice Returns the address of the bridge token.
-    /// @return Address of the bridge token.
-<span class="fstat-no" title="function not covered" >    function getIONBridge() external pure returns (address) {</span>
-<span class="cstat-no" title="statement not covered" >        return bridgeAddress;</span>
-    }
-&nbsp;
-    /// @notice Returns the address of the pooled token (same as bridge token in this case).
-    /// @return Address of the pooled token.
-<span class="fstat-no" title="function not covered" >    function getPooledToken() external pure returns (address) {</span>
-<span class="cstat-no" title="statement not covered" >        return bridgeAddress;</span>
-    }
-&nbsp;
-    /// @notice Returns the address of the other token used in the swap.
-    /// @return Address of the other token.
-<span class="fstat-no" title="function not covered" >    function getOtherToken() external pure returns (address) {</span>
-<span class="cstat-no" title="statement not covered" >        return otherTokenAddress;</span>
-    }
-&nbsp;
     /// @notice Returns the pooled token and the other token amounts on the IONSwap contract.
     /// @return otherTokenAmount The amount of other token in the IONSwap contract.
     /// @return pooledTokenAmount The amount of pooled token in the IONSwap contract.
@@ -424,7 +295,7 @@ contract IONBridgeRouterMainnetDeployer {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Feb 07 2025 19:43:58 GMT+0200 (Eastern European Standard Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Feb 16 2025 21:30:14 GMT+0200 (Eastern European Standard Time)
 </div>
 </div>
 <script src="../prettify.js"></script>
